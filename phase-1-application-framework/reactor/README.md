@@ -28,4 +28,10 @@
 (여기에 학습하면서 정리)
 
 ## ❓ 궁금한 점 / 추가 학습
-(학습 중 생긴 질문이나 더 파볼 주제)
+- [ ] 왜 이름이 reactor 인가
+- [ ] backpressure 를 관리해준다는데 backpressure 가 정확히 무엇인지?
+- [ ] Flux, Mono 이름의 유래?
+- [ ] BOM (Bill of Materials)?
+- [ ] reactor 는 iterable-iterator pair 관계 모델이라는데 그 의미? 사용 예시가? .flatMap()?
+  - [ ] pull-based 가 아니라 push-based 라고 하는데 그 의미도 궁금함 data source 에서부터 결과값이 바깥으로 빠져나가는(emit) 형식이라서 push-based 인가? == publish? -> 그런 것 같음. 바로 다음줄에 reactor model 에서는 publisher-subscriber 모델이고 publisher 가 subscriber 에게 데이터가 준비되었다고 알릴 책임이 있다고 함. push 가 reactive 함에 있어서 중요한 개념이다.
+- [ ] imperatively vs declaratively 차이 => 전자는 뭘 구하고 변수에 넣고, 그걸 이용해서 다음 단계를 구하는 통제하는 형태. 후자는 연산의 흐름만 기술하고 변수를 할당하는 등 그 이상의 통제는 하지 않음? 순수 함수?
