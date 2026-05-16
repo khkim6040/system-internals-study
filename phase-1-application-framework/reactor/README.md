@@ -25,13 +25,21 @@
 - [ ] (학습 중 떠오른 실험을 여기에 추가)
 
 ## 📝 학습 노트
-(여기에 학습하면서 정리)
+### Introduction to Reactive Programming
+리엑티브 프로그래밍은 컨베이어 벨트처럼 생각하면 된다. Publisher가 정제되지 않은 날 것의 데이터를 넣으면, 각 연산을 거치면서 가공되어 마지막 Subcrbier 에서 결과물이 나옴
+체인의 Subscriber 가 Publisher 를 Subscribe 하기 전까지는 체인이 실행되지 않음
+cold sequence: subscriber 가 subscribe 할 때마다 체인 전체가 실행
+hot sequence: subscribe 해도 체인 전체가 실행되지 않고 결과를 캐싱해놔서 일부만 실행하든가 실행 자체를 스킵
+
+### Reactor Core Features
+
 
 ## ❓ 궁금한 점 / 추가 학습
 - [ ] 왜 이름이 reactor 인가
-- [ ] backpressure 를 관리해준다는데 backpressure 가 정확히 무엇인지?
+- [ ] backpressure 를 관리해준다는데 backpressure 가 정확히 무엇인지: 유량을 조절하는 느낌. 리엑티브 체인의 중간에 위치한 operator 들은 upstream과 downstream 간의 요청 개수를 각각 설정할 수 있음. 위에서 10개 받아 처리하고 밑으로는 1개 내려주는 식으로 동작 가능. 위에서 10개 받을 때 한 번에 하나씩 받으면 비효율적이니 10개 모아서 한 번에 받을 수 있음. push-pull-hybrid 를 사용함.
 - [ ] Flux, Mono 이름의 유래?
 - [ ] BOM (Bill of Materials)?
 - [ ] reactor 는 iterable-iterator pair 관계 모델이라는데 그 의미? 사용 예시가? .flatMap()?
   - [ ] pull-based 가 아니라 push-based 라고 하는데 그 의미도 궁금함 data source 에서부터 결과값이 바깥으로 빠져나가는(emit) 형식이라서 push-based 인가? == publish? -> 그런 것 같음. 바로 다음줄에 reactor model 에서는 publisher-subscriber 모델이고 publisher 가 subscriber 에게 데이터가 준비되었다고 알릴 책임이 있다고 함. push 가 reactive 함에 있어서 중요한 개념이다.
-- [ ] imperatively vs declaratively 차이 => 전자는 뭘 구하고 변수에 넣고, 그걸 이용해서 다음 단계를 구하는 통제하는 형태. 후자는 연산의 흐름만 기술하고 변수를 할당하는 등 그 이상의 통제는 하지 않음? 순수 함수?
+- [ ] imperatively vs declaratively 차이: 전자는 뭘 구하고 변수에 넣고, 그걸 이용해서 다음 단계를 구하는 통제하는 형태. 후자는 연산의 흐름만 기술하고 변수를 할당하는 등 그 이상의 통제는 하지 않음? 순수 함수?
+- [ ] 
