@@ -26,14 +26,23 @@
 
 ## 📝 학습 노트
 ### Introduction to Reactive Programming
-리엑티브 프로그래밍은 컨베이어 벨트처럼 생각하면 된다. Publisher가 정제되지 않은 날 것의 데이터를 넣으면, 각 연산을 거치면서 가공되어 마지막 Subcrbier 에서 결과물이 나옴
-체인의 Subscriber 가 Publisher 를 Subscribe 하기 전까지는 체인이 실행되지 않음
-cold sequence: subscriber 가 subscribe 할 때마다 체인 전체가 실행
-hot sequence: subscribe 해도 체인 전체가 실행되지 않고 결과를 캐싱해놔서 일부만 실행하든가 실행 자체를 스킵
+- 리엑티브 프로그래밍은 컨베이어 벨트처럼 생각하면 된다. Publisher가 정제되지 않은 날 것의 데이터를 넣으면, 각 연산을 거치면서 가공되어 마지막 Subcrbier 에서 결과물이 나옴
+- 체인의 Subscriber 가 Publisher 를 Subscribe 하기 전까지는 체인이 실행되지 않음
+- cold sequence: subscriber 가 subscribe 할 때마다 체인 전체가 실행
+- hot sequence: subscribe 해도 체인 전체가 실행되지 않고 결과를 캐싱해놔서 일부만 실행하든가 실행 자체를 스킵
+
 
 ### Reactor Core Features
+- Flux: 2개 이상의 비동기적 흐름
+- Mono: 0 or 1개의 비동기적 흐름
+- subscribe() 는 만들어둔 체인을 실제로 실행시킴. 사용자는 체인만 만들면 되고 직접 subscribe()를 작성하는 일은 드묾. `spring-webflux` 같은 프레임워크가 알아서 subscribe 처리해 주기 때문
 
+그러나 subscribe() 를 명시적으로 호출하는 경우가 몇 개 있음
 
+- fire-and-forget: 실행만 원하는 함수(혹은 체인)에 명시적으로 subscribe() 달아서 바로 실행시킴
+  - 이 경우, subscribe() 한 함수를 별도 스레드에서 실행되기 때문에 이제 호출자가 중간에 취소할 수 없고 에러 핸들링이 제한됨
+  - 따라서 공식 문서는 fire-and-forget 패턴을 사용하려면 최소한 에러 핸들러는 넣으라고 하고, subscribe()로 별도 스레드에 컨트롤 할 수 없게 태우기보단 then() 으로 동기적으로 호출하는 패턴을 권유함
+ 
 ## ❓ 궁금한 점 / 추가 학습
 - [ ] 왜 이름이 reactor 인가
 - [ ] backpressure 를 관리해준다는데 backpressure 가 정확히 무엇인지: 유량을 조절하는 느낌. 리엑티브 체인의 중간에 위치한 operator 들은 upstream과 downstream 간의 요청 개수를 각각 설정할 수 있음. 위에서 10개 받아 처리하고 밑으로는 1개 내려주는 식으로 동작 가능. 위에서 10개 받을 때 한 번에 하나씩 받으면 비효율적이니 10개 모아서 한 번에 받을 수 있음. push-pull-hybrid 를 사용함.
