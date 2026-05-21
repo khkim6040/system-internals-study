@@ -43,6 +43,12 @@
   - 이 경우, subscribe() 한 함수를 별도 스레드에서 실행되기 때문에 이제 호출자가 중간에 취소할 수 없고 에러 핸들링이 제한됨
   - 따라서 공식 문서는 fire-and-forget 패턴을 사용하려면 최소한 에러 핸들러는 넣으라고 하고, subscribe()로 별도 스레드에 컨트롤 할 수 없게 태우기보단 then() 으로 동기적으로 호출하는 패턴을 권유함
  
+subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하이브리드 <- 이 뜻이 뭐냐?
+- pull based: subscriber 가 upstream 에 계속 요청해서 데이터가 있는지 확인 후 갖고옴
+- push based: upstream 에서 subscriber 의 처리량을 생각하지 않고 데이터를 밀어넣음
+- pull-push 하이브리드: subscriber 가 upstream 에 `request` 만큼의 데이터를 한 번만 요청하고 자기 할 것 함. upstream 은 그만큼 데이터를 내려줌. 그 이상은 X.
+  - subscriber 내부적으로 데이터를 들고있는 버퍼의 75% 를 소비하면 upstream 에 데이터를 요청함. 왜 75% 냐? 휴리스틱이라고 함. 따라서 조정 가능. 기본 `request` 값은 256으로, 외부 I/O 작업 같은 무겁고 데이터 크기가 큰 경우에는 256개를 버퍼에 들고있기 어려울 수 있으므로 필요 시 튜닝 해야 함
+ 
 ## ❓ 궁금한 점 / 추가 학습
 - [ ] 왜 이름이 reactor 인가
 - [ ] backpressure 를 관리해준다는데 backpressure 가 정확히 무엇인지: 유량을 조절하는 느낌. 리엑티브 체인의 중간에 위치한 operator 들은 upstream과 downstream 간의 요청 개수를 각각 설정할 수 있음. 위에서 10개 받아 처리하고 밑으로는 1개 내려주는 식으로 동작 가능. 위에서 10개 받을 때 한 번에 하나씩 받으면 비효율적이니 10개 모아서 한 번에 받을 수 있음. push-pull-hybrid 를 사용함.
