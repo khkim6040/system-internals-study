@@ -48,6 +48,13 @@ subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하�
 - push based: upstream 에서 subscriber 의 처리량을 생각하지 않고 데이터를 밀어넣음
 - pull-push 하이브리드: subscriber 가 upstream 에 `request` 만큼의 데이터를 한 번만 요청하고 자기 할 것 함. upstream 은 그만큼 데이터를 내려줌. 그 이상은 X.
   - subscriber 내부적으로 데이터를 들고있는 버퍼의 75% 를 소비하면 upstream 에 데이터를 요청함. 왜 75% 냐? 휴리스틱이라고 함. 따라서 조정 가능. 기본 `request` 값은 256으로, 외부 I/O 작업 같은 무겁고 데이터 크기가 큰 경우에는 256개를 버퍼에 들고있기 어려울 수 있으므로 필요 시 튜닝 해야 함
+- 스레드 스케줄러 3가지와 쓰이는 경우
+  - boundedElastic: blocking(sync HTTP, file I/O 등) operation 이 있을 때 사용. spawn 하는 스레드 상한이 정해져있음 -> 자원 낭비 X
+  - parallel: non-blocking 하지만 CPU-heavy 한 작업에 사용. CPU 개수에 비례해 작업 스레드 배정해 줌
+  - single: 하나의 스레드로 serialization 되어야 하는 것. 병목이 되기 때문에 잘 사용 X
+ 
+- subscribeOn: source 에서 체인이 처음 실행되는 스레드를 특정해 줌. 체인이 시작되는 source 에 적용되는 것이기 때문에 체인에 단 한 번 적용됨
+- publishOn: 체인이 실행되면서 내려갈 때 그 다음 연산을 실행할 스레드를 특정해 줌. 체인이 실행되면서 적용되기 때문에 여러 군데에서 다양하게 적용가능
  
 ## ❓ 궁금한 점 / 추가 학습
 - [ ] 왜 이름이 reactor 인가
@@ -58,3 +65,4 @@ subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하�
   - [ ] pull-based 가 아니라 push-based 라고 하는데 그 의미도 궁금함 data source 에서부터 결과값이 바깥으로 빠져나가는(emit) 형식이라서 push-based 인가? == publish? -> 그런 것 같음. 바로 다음줄에 reactor model 에서는 publisher-subscriber 모델이고 publisher 가 subscriber 에게 데이터가 준비되었다고 알릴 책임이 있다고 함. push 가 reactive 함에 있어서 중요한 개념이다.
 - [ ] imperatively vs declaratively 차이: 전자는 뭘 구하고 변수에 넣고, 그걸 이용해서 다음 단계를 구하는 통제하는 형태. 후자는 연산의 흐름만 기술하고 변수를 할당하는 등 그 이상의 통제는 하지 않음? 순수 함수?
 - [ ] 왜 Mono 에서는 onNext() 와 onError() 를 같이 쓰는게 명시적으로 금지되어 있나. onNext() 가 호출되면 onComplete() 으로 가야함. onNext() -> onError() 는 정의되지 않은 경로. 에러 시, onNext(), onError() 중 무엇이 호출되어야 하나? 정할 수 없기 때문에?
+- [ ] sink 가 무엇인지. subscribe, publish 와 어떻게 연결되는지. flux 생성하는 부분에 사용되어 reactive 데이터 주입해주는 것? 언제 사용하지? 동적으로 데이터 받고(외부 API, 카프카) 처리할 떄?
