@@ -53,7 +53,7 @@ subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하�
   - parallel: non-blocking 하지만 CPU-heavy 한 작업에 사용. CPU 개수에 비례해 작업 스레드 배정해 줌
   - single: 하나의 스레드로 serialization 되어야 하는 것. 병목이 되기 때문에 잘 사용 X
  
-- subscribeOn: source 에서 체인이 처음 실행되는 스레드를 특정해 줌. 체인이 시작되는 source 에 적용되는 것이기 때문에 체인에 단 한 번 적용됨
+- subscribeOn: source 에서 체인이 처음 실행되는 스레드를 특정해 줌. 체인이 시작되는 source 에 적용되는 것이기 때문에 체인에 단 한 번 적용됨. 여러 개 쓸 수는 있는데 거의 의미는 없고, 여러 개 써져있다면 downstream(= source 에서 가장 먼 쪽)에 가까운 subscribeOn() 이 적용됨
 - publishOn: 체인이 실행되면서 내려갈 때 그 다음 연산을 실행할 스레드를 특정해 줌. 체인이 실행되면서 적용되기 때문에 여러 군데에서 다양하게 적용가능
  
 ## ❓ 궁금한 점 / 추가 학습
