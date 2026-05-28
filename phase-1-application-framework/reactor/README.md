@@ -66,3 +66,6 @@ subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하�
 - [ ] imperatively vs declaratively 차이: 전자는 뭘 구하고 변수에 넣고, 그걸 이용해서 다음 단계를 구하는 통제하는 형태. 후자는 연산의 흐름만 기술하고 변수를 할당하는 등 그 이상의 통제는 하지 않음? 순수 함수?
 - [ ] 왜 Mono 에서는 onNext() 와 onError() 를 같이 쓰는게 명시적으로 금지되어 있나. onNext() 가 호출되면 onComplete() 으로 가야함. onNext() -> onError() 는 정의되지 않은 경로. 에러 시, onNext(), onError() 중 무엇이 호출되어야 하나? 정할 수 없기 때문에?
 - [ ] sink 가 무엇인지. subscribe, publish 와 어떻게 연결되는지. flux 생성하는 부분에 사용되어 reactive 데이터 주입해주는 것? 언제 사용하지? 동적으로 데이터 받고(외부 API, 카프카) 처리할 떄?
+- [ ] 왜  별도의 페이지를 할당해 설명할 만큼 error handling 이 중요한지
+  - [ ] 체인에서 에러 핸들링(onError~~)을 하지 않으면, 에러가 생겼을 때 어떤 문제가 발생하지?
+  - [ ] 에러가 발생하면 나머지 체인 downstream 의 진행을 끊는다? 복구를 해서 진행시켜도 그건 기존 upstream source 에서 만들어진 sequence 가 아니라 새로운 sequence 라는데 기존이나 새로운거나 차이가 있나?
