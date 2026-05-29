@@ -55,6 +55,10 @@ subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하�
  
 - subscribeOn: source 에서 체인이 처음 실행되는 스레드를 특정해 줌. 체인이 시작되는 source 에 적용되는 것이기 때문에 체인에 단 한 번 적용됨. 여러 개 쓸 수는 있는데 거의 의미는 없고, 여러 개 써져있다면 downstream(= source 에서 가장 먼 쪽)에 가까운 subscribeOn() 이 적용됨
 - publishOn: 체인이 실행되면서 내려갈 때 그 다음 연산을 실행할 스레드를 특정해 줌. 체인이 실행되면서 적용되기 때문에 여러 군데에서 다양하게 적용가능
+
+에러 핸들링
+- onError 콜백은 try-catch 의 catch 구문과 동일한 역할을 한다. 즉, 체인 실행 중에 exception 이 발생하면 남은것들 다 스킵하고 onError 쪽으로 넘어감
+- onErrorReturn, onErrorComplete, onErrorResume 등 다양한 try-catch 에서 사용할 수 있는 시나리오들을 추상화해서 함수로 만들어놨고, 람다 안에서 필터링도 가능하니 onError... 패밀리들 가져다가 에러 핸들링하면 됨
  
 ## ❓ 궁금한 점 / 추가 학습
 - [ ] 왜 이름이 reactor 인가
@@ -69,3 +73,4 @@ subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하�
 - [ ] 왜  별도의 페이지를 할당해 설명할 만큼 error handling 이 중요한지
   - [ ] 체인에서 에러 핸들링(onError~~)을 하지 않으면, 에러가 생겼을 때 어떤 문제가 발생하지?
   - [ ] 에러가 발생하면 나머지 체인 downstream 의 진행을 끊는다? 복구를 해서 진행시켜도 그건 기존 upstream source 에서 만들어진 sequence 가 아니라 새로운 sequence 라는데 기존이나 새로운거나 차이가 있나?
+- [ ] 하나의 체인에 onError... 여러가지 함께 사용해도 되나? e.g. f().onErrorResume().onErrorComplete().onErrorReturn() 
