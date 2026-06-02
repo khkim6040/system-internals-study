@@ -25,7 +25,16 @@
 - [ ] (학습 중 떠오른 실험을 여기에 추가)
 
 ## 📝 학습 노트
-(여기에 학습하면서 정리)
+webflux 는 기존 mvc 가 이뤄주지 못했던 비동기 처리(non-blocking) 요구 및 함수형(functional) 프로그래밍이란 두가지 큰 요구를 이뤄준다.
+
+리액티브(non-blocking) 프로그래밍에서 왜 back pressure 를 언급하는지 이유
+- 그냥 blocking 프로그래밍에서는 처리하는 downstream(=subscriber) 의 처리량 자체가 upstream(=publisher)의 처리량이 됨. back pressure 신경쓸 필요 없음
+- 그러나 non-blocking 환경에서는 downstream 과 upstream 의 처리가 묶여있지 않고 따로 진행됨.
+  - downstream 이 upstream 의 처리량을 커버할 수 있으면 상관 없음
+  - 커버하지 못해 upstream 이 downstream 으로 더 많은 데이터를 공급하면 데이터가 유실되거나, 버퍼가 꽉 차서 문제가 생기거나, 아예 처리가 실패하거나 문제가 생김
+  - 따라서 downstream 의 처리량이 딸릴 때 upstream 으로 처리량을 줄일 수 있어야 함. 그게 back pressure 개념임. 즉, non-blocking 성질을 갖고있는 reactive 프로그래밍에서는 back pressure 개념이 중요하다.
 
 ## ❓ 궁금한 점 / 추가 학습
-(학습 중 생긴 질문이나 더 파볼 주제)
+- spring MVC 는 servlet 위에서, webflux 는 netty(혹은 servlet) 위에서 동작한다는데, servlet 과 netty 의 차이? 같은 계층인가?
+- **annotated** controller 가 무엇이지?
+- 
