@@ -36,5 +36,7 @@ webflux 는 기존 mvc 가 이뤄주지 못했던 비동기 처리(non-blocking)
 
 ## ❓ 궁금한 점 / 추가 학습
 - spring MVC 는 servlet 위에서, webflux 는 netty(혹은 servlet) 위에서 동작한다는데, servlet 과 netty 의 차이? 같은 계층인가?
-- **annotated** controller 가 무엇이지?
-- 
+- **annotated** controller 가 무엇이지? : 일반적인 @ 어노테이션으로 생성되는 컨트롤러. spring MVC 와 같음. webflux 는 annotated controller 말고도 프로그래밍 모델로 functional endpoints 도 지원함
+- functional endpoints: 람다식으로 컨트롤러를 매핑하는 것.
+- functional endpoints 는 annotated controller 와의 차이로 "the application is in charge of request handling from start to finish versus declaring intent through annotations and being called back." 라고 하는데 그 의미? 경로 시작부터 끝까지 처리를 자신이 다 한다는 건가? intent through annotations and being called back 의 의미
+- webflux 는 reactive api 말고 coroutines api 로도 사용될 수 있다고 하는데, 둘은 같은 레벨인가? 코루틴은 절차형이라는데 차이는?
