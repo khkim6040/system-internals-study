@@ -50,7 +50,15 @@ webflux 의 non-blocking, funtional programming, declarative programming 개념�
 - cpu 개수만큼 1개 -> 요청 처리. **블록되면 안 됨**
 - webClient 용 스레드 풀
 - 스케줄러 용 스레드 풀: 현재 실행되는 부분을 다른 스레드에 넘기고 싶을 때 publishOn 을 호출함. 이 때 현재 스레드는 계속 실행되면서 스케줄러 스레드 풀에서는 각종 병렬 작업, 블로킹 I/O 작업 등을 수행할 수 있음. 즉, 여기서는 **블록되도 됨**
-- 
+
+웹 요청 처리를 위한 핵심 두 가지
+
+`HttpHandler`: 요청/응답을 위한 아주 단순한 추상 계약. 세 가지 형태로 구현됨
+- netty(`io.projectreactor.netty`) <- spring webflux 기본
+- Tomcat(`org.apache.tomcat.embed`)
+- jetty(`org.eclipse.jetty`)
+
+`WebHandler API`: HttpHandler 를 기반으로 기본적인 web API 처리를 위한 여러 기능을 제공함. 예를 들면 요청 인자 및 헤더 파싱, 유저 세션 유지 등
 
 ## ❓ 궁금한 점 / 추가 학습
 - spring MVC 는 servlet 위에서, webflux 는 netty(혹은 servlet) 위에서 동작한다는데, servlet 과 netty 의 차이? 같은 계층인가?
