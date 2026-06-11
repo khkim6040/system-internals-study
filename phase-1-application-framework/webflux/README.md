@@ -60,6 +60,11 @@ webflux 의 non-blocking, funtional programming, declarative programming 개념�
 
 `WebHandler API`: HttpHandler 를 기반으로 기본적인 web API 처리를 위한 여러 기능을 제공함. 예를 들면 요청 인자 및 헤더 파싱, 유저 세션 유지 등
 
+webClient
+- webflux 에서 기본으로 제공하는 비동기 HTTP client
+- 쉽게 헤더, body, uri 등 요청 값 세팅 및 풀, 타임아웃 등 클라이언트 세부 설정도 할 수 있음
+- retrieve() 를 통해 webClient 의 요청 결과 body 를 가공할 수 있다 e.g. 응답을 Mono로, 응답 배열을 Flux 로, 5xx 에러 코드를 받은 응답은 따로 처리
+
 ## ❓ 궁금한 점 / 추가 학습
 - spring MVC 는 servlet 위에서, webflux 는 netty(혹은 servlet) 위에서 동작한다는데, servlet 과 netty 의 차이? 같은 계층인가?
   - spring application 을 구동시켜주는 같은 서버 계층이다(여기서 말하는 서버는 따로 정리)
