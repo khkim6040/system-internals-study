@@ -61,16 +61,16 @@ subscriber 가 upstream에 처리할 데이터를 받는 방법: pull-push 하�
 - onErrorReturn, onErrorComplete, onErrorResume 등 다양한 try-catch 에서 사용할 수 있는 시나리오들을 추상화해서 함수로 만들어놨고, 람다 안에서 필터링도 가능하니 onError... 패밀리들 가져다가 에러 핸들링하면 됨
  
 ## ❓ 궁금한 점 / 추가 학습
-- [ ] 왜 이름이 reactor 인가
-- [ ] backpressure 를 관리해준다는데 backpressure 가 정확히 무엇인지: 유량을 조절하는 느낌. 리엑티브 체인의 중간에 위치한 operator 들은 upstream과 downstream 간의 요청 개수를 각각 설정할 수 있음. 위에서 10개 받아 처리하고 밑으로는 1개 내려주는 식으로 동작 가능. 위에서 10개 받을 때 한 번에 하나씩 받으면 비효율적이니 10개 모아서 한 번에 받을 수 있음. push-pull-hybrid 를 사용함.
-- [ ] Flux, Mono 이름의 유래?
-- [ ] BOM (Bill of Materials)?
-- [ ] reactor 는 iterable-iterator pair 관계 모델이라는데 그 의미? 사용 예시가? .flatMap()?
-  - [ ] pull-based 가 아니라 push-based 라고 하는데 그 의미도 궁금함 data source 에서부터 결과값이 바깥으로 빠져나가는(emit) 형식이라서 push-based 인가? == publish? -> 그런 것 같음. 바로 다음줄에 reactor model 에서는 publisher-subscriber 모델이고 publisher 가 subscriber 에게 데이터가 준비되었다고 알릴 책임이 있다고 함. push 가 reactive 함에 있어서 중요한 개념이다.
-- [ ] imperatively vs declaratively 차이: 전자는 뭘 구하고 변수에 넣고, 그걸 이용해서 다음 단계를 구하는 통제하는 형태. 후자는 연산의 흐름만 기술하고 변수를 할당하는 등 그 이상의 통제는 하지 않음? 순수 함수?
-- [ ] 왜 Mono 에서는 onNext() 와 onError() 를 같이 쓰는게 명시적으로 금지되어 있나. onNext() 가 호출되면 onComplete() 으로 가야함. onNext() -> onError() 는 정의되지 않은 경로. 에러 시, onNext(), onError() 중 무엇이 호출되어야 하나? 정할 수 없기 때문에?
-- [ ] sink 가 무엇인지. subscribe, publish 와 어떻게 연결되는지. flux 생성하는 부분에 사용되어 reactive 데이터 주입해주는 것? 언제 사용하지? 동적으로 데이터 받고(외부 API, 카프카) 처리할 떄?
+- [ ] 왜 이름이 reactor 인가 -> 반응성 있게 바로바로 빠르게 응답해줘서? 
+- [ ] backpressure 를 관리해준다는데 backpressure 가 정확히 무엇인지 -> 유량을 조절하는 느낌. 리엑티브 체인의 중간에 위치한 operator 들은 upstream과 downstream 간의 요청 개수를 각각 설정할 수 있음. 위에서 10개 받아 처리하고 밑으로는 1개 내려주는 식으로 동작 가능. 위에서 10개 받을 때 한 번에 하나씩 받으면 비효율적이니 10개 모아서 한 번에 받을 수 있음. push-pull-hybrid 를 사용함.
+- [ ] Flux, Mono 이름의 유래? -> 그냥 직관적으로 지은듯 
+- [ ] BOM (Bill of Materials)?  https://projectreactor.io/docs/core/release/reference/ -> 기반 라이브러리들을 함께 묶어 제공하는 것?
+- [ ] reactor 는 iterable-iterator pair 관계 모델이라는데 그 의미? 사용 예시가? .flatMap()? -> 결과를 체인으로 연결하는데 체인의 결과가 iterable, 다음 체인에서 실행하는 함수가 iterator?
+  - [ ] pull-based 가 아니라 push-based 라고 하는데 그 의미도 궁금함 -> data source 에서부터 결과값이 바깥으로 빠져나가는(emit) 형식이라서 push-based 인가? == publish? -> 그런 것 같음. 바로 다음줄에 reactor model 에서는 publisher-subscriber 모델이고 publisher 가 subscriber 에게 데이터가 준비되었다고 알릴 책임이 있다고 함. push 가 reactive 함에 있어서 중요한 개념이다.
+- [ ] imperatively vs declaratively 차이 -> 전자는 뭘 구하고 변수에 넣고, 그걸 이용해서 다음 단계를 구하는 통제하는 형태. 후자는 연산의 흐름만 기술하고 변수를 할당하는 등 그 이상의 통제는 하지 않음? 순수 함수?
+- [ ] 왜 Mono 에서는 onNext() 와 onError() 를 같이 쓰는게 명시적으로 금지되어 있나 -> onNext() 가 호출되면 onComplete() 으로 가야함. onNext() -> onError() 는 정의되지 않은 경로. 에러 시, onNext(), onError() 중 무엇이 호출되어야 하나? 정할 수 없기 때문에?
+- [ ] sink 가 무엇인지. subscribe, publish 와 어떻게 연결되는지. flux 생성하는 부분에 사용되어 reactive 데이터 주입해주는 것? 언제 사용하지? 동적으로 데이터 받고(외부 API, 카프카) 처리할 떄? -> 
 - [ ] 왜  별도의 페이지를 할당해 설명할 만큼 error handling 이 중요한지
-  - [ ] 체인에서 에러 핸들링(onError~~)을 하지 않으면, 에러가 생겼을 때 어떤 문제가 발생하지?
-  - [ ] 에러가 발생하면 나머지 체인 downstream 의 진행을 끊는다? 복구를 해서 진행시켜도 그건 기존 upstream source 에서 만들어진 sequence 가 아니라 새로운 sequence 라는데 기존이나 새로운거나 차이가 있나?
-- [ ] 하나의 체인에 onError... 여러가지 함께 사용해도 되나? e.g. f().onErrorResume().onErrorComplete().onErrorReturn() 
+  - [ ] 체인에서 에러 핸들링(onError~~)을 하지 않으면, 에러가 생겼을 때 어떤 문제가 발생하지? -> 일반적인 웹 프레임워크에서처럼 체인을 호출한 상위로 타고나가면서 에러 전파시킴  
+  - [ ] 에러가 발생하면 나머지 체인 downstream 의 진행을 끊는다? 복구를 해서 진행시켜도 그건 기존 upstream source 에서 만들어진 sequence 가 아니라 새로운 sequence 라는데 기존이나 새로운거나 차이가 있나? -> 담고 있는 정보가 다를 수 있음
+- [ ] 하나의 체인에 onError... 여러가지 함께 사용해도 되나? e.g. f().onErrorResume().onErrorComplete().onErrorReturn() -> 불가능 할 것 같다. 먼저 예시와 같은 경우에서는 resume 뒤에서는 error 가 나올 일이 없고, complete 뒤에서도 error 가 나올 경우가 없으니 각 뒤에 붙은 onErorrxx() 는 의미가 없다. 다른 예시로 어떻게 가능할지는 모르겠지만 f() 에 onErrorxx() 를 여러 개 붙이는 것을 생각해보면 error 는 한 번 발생하는데 붙여놓은 onErorrxx() 가 모두 동작하게 되는 꼴이라 이것도 말이 안됨. 애초에 reactive chain 은 a -> b -> c 로 가지 a 가 b랑 c 모두 트리거할 수는 없다고 봄. 고로 말이 안됨 
